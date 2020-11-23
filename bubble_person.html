@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src='https://d3js.org/d3.v5.min.js'></script>
+  <script src="bubble.js"></script>
+  <style>
+    body {
+      font-family: "avenir next", Arial, sans-serif;
+      font-size: 12px;
+      margin: 0;
+    }
+  </style>
+  <link rel="stylesheet" href="css/style.css"/>
+
+</head>
+
+<body>
+  <section id ="header">
+    <div class="navbar">
+      <a href="index.html">Home</a>
+    <div class="dropdown">
+    <button class="dropbtn" onclick="myFunction()">Menu
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content" id="myDropdown">
+      <a href="network.html">Graph database </a>
+      <a href="mapping.html">Mapping</a>
+      <a href="bubble_person.html">BubbleChart</a>
+    </div>
+    </div>
+    </div>
+         <section>
+      <div id="right_float_middle">
+          <svg width="850" height="80">
+       <text x="1" y="15" font-weight="bold">Country </text>
+       <circle cx="20" cy="40" r="15" stroke="black" stroke-width="2" fill='#ff9587' />
+       <text x="50" y="45" font-weight="bold">German</text>
+       <circle cx="140" cy="40" r="15" stroke="black" stroke-width="2" fill='#7FDBFF' />
+       <text x="170" y="45" font-weight="bold">French</text>
+       <circle cx="250" cy="40" r="15" stroke="black" stroke-width="2" fill='#39CCCC' />
+       <text x="280" y="45" font-weight="bold">Polish</text>
+       <circle cx="370" cy="40" r="15" stroke="black" stroke-width="2" fill='#bad63e' />
+       <text x="400" y="45" font-weight="bold">American</text>
+       <circle cx="500" cy="40" r="15" stroke="black" stroke-width="2" fill='#f2f070' />
+       <text x="525" y="45" font-weight="bold">Spanish</text>
+         </svg>
+     </div>
+   </section>
+  </section>
+    <section id="vis">
+    </section>
+  </body>
+</html>

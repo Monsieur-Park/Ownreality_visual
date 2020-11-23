@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+  <!-- Leaflet assets -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
+
+  <!-- Leaflet.StyledLayerControl assets -->
+  <link rel="stylesheet" href="https://davicustodio.github.io/Leaflet.StyledLayerControl/css/styledLayerControl.css" />
+  <script src="https://davicustodio.github.io/Leaflet.StyledLayerControl/src/styledLayerControl.js"></script>
+
+
+  <!-- Leaflet.markercluster assets -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.6/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.6/dist/MarkerCluster.Default.css">
+  <script src="https://unpkg.com/leaflet.markercluster@1.0.6/dist/leaflet.markercluster-src.js"></script>
+
+  <!-- Leaflet.markercluster.layersupport assets -->
+  <script src="dist/leaflet.markercluster.layersupport-src.js"></script>
+  <script src="maps/Event_Register.js"></script>
+  <script src="maps/Born_Register.js"></script>
+  <script src="maps/Work_Register.js"></script>
+  <script src="maps/Death_Register.js"></script>
+
+  <!-- J-Query assets -->
+  <script type='text/javascript'src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>
+
+
+  <style>
+    #map {
+      width: 900px;
+      height: 700px;
+      border: 1px solid black;
+    }
+  </style>  
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+  <section id ="header">
+    <div class="navbar">
+     <a href="index.html">Home</a>
+    <div class="dropdown">
+    <button class="dropbtn" onclick="myFunction()">Menu
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content" id="myDropdown">
+      <a href="network.html">Graph database </a>
+      <a href="mapping.html">Mapping</a>
+      <a href="bubble_person.html">BubbleChart</a>
+    </div>
+    </div>
+    </div>
+  </section>
+  <section>
+  <main>
+  <h1>Cluster Mapping</h1>
+
+  <div id="map"></div>
+
+  <script type='text/javascript'>
+
+    var mapStyle = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    });
+
+    var map = L.map( 'map', {
+       center: [10.0, 5.0],
+       minZoom: 2,
+       zoom: 2
+     });
+
+    map.addLayer(mapStyle);
+
+
+    var Clusters = L.markerClusterGroup.layerSupport().addTo(map);
+
+    var eventCluster = new L.markerClusterGroup();
+    var bornCluster = new L.markerClusterGroup();
+    var deathCluster = new L.markerClusterGroup();
+    var workCluster = new L.markerClusterGroup();
+
+
+    // Create marker layers
+    for ( var i = 0; i < Event.length; ++i )
+    {
+      var popup =  Event[i].title +
+                  '<br/><b>Title:</b>' + Event[i].title +
+                  '<br/><b>Start</b> ' + Event[i].start +
+                  '<br/><b>End:</b> ' + Event[i].end;
+                //  '<br/><b>ExhibitionCount:</b> ' + City[i].ExhibitionCount;
+                //  '<br/><b>Timezone:</b> ' + markers[i].tz;
+
+      var m = L.marker([Event[i].lat, Event[i].lng], {
+      })
+       .bindPopup(popup);
+
+      eventCluster.addLayer(m);
+    }
+
+
+    for ( var i = 0; i < Born.length; ++i )
+    {
+      var pop =  Born[i].Name +
+                  '<br/><b>Nationality</b> ' + Born[i].Nationality +
+                  '<br/><b>Bio:</b> ' + Born[i].Bio +
+                  '<br/><b>born_place:</b> ' + Born[i].born_place;
+                //  '<br/><b>Timezone:</b> ' + markers[i].tz;
+
+      var m = L.marker([Born[i].lat, Born[i].lng], {
+      })
+       .bindPopup(pop);
+
+      bornCluster.addLayer(m);
+    }
+
+    for ( var i = 0; i < Work.length; ++i )
+    {
+      var pop =  Work[i].Name +
+                  '<br/><b>Nationality</b> ' + Work[i].Nationality +
+                  '<br/><b>Bio:</b> ' + Work[i].Bio +
+                  '<br/><b>Work_place:</b> ' + Work[i].work_place;
+
+      var m = L.marker([Work[i].lat, Work[i].lng], {
+      })
+       .bindPopup(pop);
+
+      workCluster.addLayer(m);
+    }
+
+    for ( var i = 0; i < Death.length; ++i )
+    {
+      var pop =  Death[i].Name +
+                  '<br/><b>Nationality</b> ' + Death[i].Nationality +
+                  '<br/><b>Bio:</b> ' + Death[i].Bio +
+                  '<br/><b>Death_place:</b> ' + Death[i].Death_place;
+                //  '<br/><b>Timezone:</b> ' + markers[i].tz;
+
+      var m = L.marker([Death[i].lat, Death[i].lng], {
+      })
+       .bindPopup(pop);
+
+      deathCluster.addLayer(m);
+    }
+
+    var country_boundary = new L.geoJson();
+    country_boundary.addTo(map);
+
+       $.ajax({
+       dataType: "json",
+       url: "maps/Germany.geojson",
+       success: function(data) {
+           $(data.features).each(function(key, data) {
+               country_boundary.addData(data);
+           });
+       }
+       }).error(function() {});
+
+    var baseMaps = {
+      "Event": eventCluster,
+      "Born": bornCluster,
+      "Work": workCluster,
+      "Death": deathCluster
+    };
+
+    var options = {
+      container_width: "300px",
+      group_maxHeight: "80px",
+      //container_maxHeight : "350px",
+      exclusive: false,
+      collapsed: true,
+      position: 'topright'
+    };
+
+    L.control.layers(baseMaps, null).addTo(map);
+//allStudents.addTo(mymap);
+     map.clearLayers();
+
+
+        </script>
+      </main>
+    </section>
+  </body>
+</html>
