@@ -1,7 +1,7 @@
 let margin = {top: 100, right: 100, bottom: 100, left: 100};
 
 let width = 960,
-    height = 960,
+    height = 760,
     padding = 1.5, // separation between same-color circles
     clusterPadding = 5, // separation between different-color circles
     maxRadius = height*0.1;
