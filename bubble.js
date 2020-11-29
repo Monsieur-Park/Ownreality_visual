@@ -1,131 +1,196 @@
-function bubbleChart() {
-  const width = 960;
-  const height = 960;
+let margin = {top: 100, right: 100, bottom: 100, left: 100};
 
-  // location to centre the bubbles
-  const centre = { x: width/2, y: height/2 };
+let width = 960,
+    height = 960,
+    padding = 1.5, // separation between same-color circles
+    clusterPadding = 5, // separation between different-color circles
+    maxRadius = height*0.1;
 
-  // strength to apply to the position forces
-  const forceStrength = 0.03;
+let n = 40, // total number of nodes
+    m = 5, // number of distinct clusters
+//    z = d3.scaleOrdinal()
+//      .domain(["German", "French", "Polish", "American", "Spanish"])
+//      .range(["#ff9587", "#7FDBFF", "#39CCCC", "#bad63e", "#f2f070"])
+   fillColour = d3.scaleOrdinal()
+      .domain(["German", "Swiss","French", "Polish", "American", "Spanish", "Belorussian", "Chilean"])
+      .range(["#ff9587", "#f1d9e7","#7FDBFF", "#39CCCC", "#bad63e", "#f2f070", "#a0aefd", "#53aefd"]);
 
-  // these will be set in createNodes and chart functions
-  let svg = null;
-  let bubbles = null;
-  let labels = null;
-  let nodes = [];
+let clusters = new Array(m);
 
-  // charge is dependent on size of the bubble, so bigger towards the middle
-  function charge(d) {
-    return Math.pow(d.radius, 2.0) * 0.01
-  }
+let svg = d3.select('body')
+    .append('svg')
+    .attr('height', height)
+    .attr('width', width)
+    .append('g').attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-  // create a force simulation and add forces to it
-  const simulation = d3.forceSimulation()
-    .force('charge', d3.forceManyBody().strength(charge))
-    // .force('center', d3.forceCenter(centre.x, centre.y))
-    .force('x', d3.forceX().strength(forceStrength).x(centre.x))
-    .force('y', d3.forceY().strength(forceStrength).y(centre.y))
-    .force('collision', d3.forceCollide().radius(d => d.radius + 1));
+// Define the div for the tooltip
+let div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
-  // force simulation starts up automatically, which we don't want as there aren't any nodes yet
-  simulation.stop();
+//load college major data
+d3.csv("Count_Person.csv", function(d){
+  let radiusScale = d3.scaleLinear()
+    .domain(d3.extent(d, function(d) { return +d.Count;} ))
+    .range([30, 90]);
 
-  // set up colour scale
-  const fillColour = d3.scaleOrdinal()
-  	.domain(["German", "French", "Polish", "American", "Spanish"])
-  	.range(["#ff9587", "#7FDBFF", "#39CCCC", "#bad63e", "#f2f070"]);
+console.log(radiusScale(300000));
 
-  // data manipulation function takes raw data from csv and converts it into an array of node objects
-  // each node will store data and visualisation values to draw a bubble
-  // rawData is expected to be an array of data objects, read in d3.csv
-  // function returns the new node array, with a node for each element in the rawData input
-  function createNodes(rawData) {
-    // use max size in the data as the max in the scale's domain
-    // note we have to ensure that size is a number
-    const maxSize = d3.max(rawData, d => +d.Count);
+  let nodes = d.map((d) => {
+    // scale radius to fit on the screen
+    let scaledRadius  = radiusScale(+d.Count),
+        //  x:  Math.random() * 900,
+        //  y: Math.random() * 800,
+        forcedCluster = d.Nationality;
 
-    // size bubbles based on area
-    const radiusScale = d3.scaleSqrt()
-      .domain([0, maxSize])
-      .range([0, 80])
+    // add cluster id and radius to array
+    d = {
+      cluster     : forcedCluster,
+      r           : scaledRadius,
+      name        : d.Name,
+      category    : d.Nationality,
+      bio         : d.Bio
+    };
+    // add to clusters array if it doesn't exist or the radius is larger than another radius in the cluster
+    if (!clusters[forcedCluster] || (scaledRadius > clusters[forcedCluster].r)) clusters[forcedCluster] = d;
 
-    // use map() to convert raw data into node data
-    const myNodes = rawData.map(d => ({
-      ...d,
-      radius: radiusScale(+d.Count),
-      size: +d.Count,
-      x: Math.random() * 900,
-      y: Math.random() * 800
-    }))
+    return d;
+  });
 
-    return myNodes;
-  }
 
-  // main entry point to bubble chart, returned by parent closure
-  // prepares rawData for visualisation and adds an svg element to the provided selector and starts the visualisation process
-  let chart = function chart(selector, rawData) {
-    // convert raw data into nodes data
-    nodes = createNodes(rawData);
+  // append the circles to svg then style
+  // add functions for interaction
+  let circles = svg.append('g')
+        .datum(nodes)
+      .selectAll('.circle')
+        .data(d => d)
+      .enter().append('circle')
+        .attr('r', (d) => d.r)
+        .attr('fill', (d) => fillColour(d.cluster))
+        .attr('stroke', 'black')
+        .attr('stroke-width', 1)
 
-    // create svg element inside provided selector
-    svg = d3.select(selector)
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height)
+        .call(d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended))
+        // add tooltips to each circle
+        .on("mouseover", function(d) {
+            div.transition()
+                .duration(200)
+                .style("opacity", .9);
+            div .html( "Nationality: " + d.category+ "<br/>Bio: " + d.bio )
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+            })
+        .on("mouseout", function(d) {
+            div.transition()
+                .duration(500)
+                .style("opacity", 0);
+        });
 
-    // bind nodes data to circle elements
-    const elements = svg.selectAll('.bubble')
-      .data(nodes, d => d.Name)
-      .enter()
-      .append('g')
+  let texts = svg.append('g')
+          .datum(nodes)
+          .selectAll('.circle')
+            .data(d => d)
+          .enter()
+          .append('text')
+          .text(d => d.name)
+          .attr("dy", ".3em")
+          .style("text-anchor", "middle")
+          .attr('color', 'black')
+          .attr('font-size', 12)
 
-    bubbles = elements
-      .append('circle')
-      .classed('bubble', true)
-      .attr('r', d => d.radius)
-      .attr('fill', d => fillColour(d.Nationality))
+  // create the clustering/collision force simulation
+  let simulation = d3.forceSimulation(nodes)
+      .velocityDecay(0.2)
+      .force("x", d3.forceX().strength(.0005))
+      .force("y", d3.forceY().strength(.0005))
+      .force("collide", collide)
+      .force("cluster", clustering)
+      .on("tick", ticked);
 
-    // labels
-    labels = elements
-      .append('text')
-      .attr('dy', '.3em')
-      .style('text-anchor', 'middle')
-      .style('font-size', 10)
-      .text(d => d.Name)
-//      .text(d => d.Count)
-
-    // set simulation's nodes to our newly created nodes array
-    // simulation starts running automatically once nodes are set
-    simulation.nodes(nodes)
-      .on('tick', ticked)
-      .restart();
-  }
-
-  // callback function called after every tick of the force simulation
-  // here we do the actual repositioning of the circles based on current x and y value of their bound node data
-  // x and y values are modified by the force simulation
   function ticked() {
-    bubbles
-      .attr('cx', d => d.x)
-      .attr('cy', d => d.y)
+      circles
+          .attr('cx', (d) => d.x)
+          .attr('cy', (d) => d.y);
 
-    labels
-      .attr('x', d => d.x)
-      .attr('y', d => d.y)
+       texts.attr('x', (d) => {
+           return d.x
+       })
+           .attr('y', (d) => {
+           return d.y
+       });
   }
 
-  // return chart function from closure
-  return chart;
-}
+  // Drag functions used for interactivity
+  function dragstarted(d) {
+    if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+  }
 
-// new bubble chart instance
-let myBubbleChart = bubbleChart();
+  function dragged(d) {
+    d.fx = d3.event.x;
+    d.fy = d3.event.y;
+  }
 
-// function called once promise is resolved and data is loaded from csv
-// calls bubble chart function to display inside #vis div
-function display(data) {
-  myBubbleChart('#vis', data);
-}
+  function dragended(d) {
+    if (!d3.event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+  }
 
-// load data
-d3.csv('Count_Person.csv').then(display);
+  // These are implementations of the custom forces.
+  function clustering(alpha) {
+      nodes.forEach(function(d) {
+        var cluster = clusters[d.cluster];
+        if (cluster === d) return;
+        var x = d.x - cluster.x,
+            y = d.y - cluster.y,
+            l = Math.sqrt(x * x + y * y),
+            r = d.r + cluster.r;
+        if (l !== r) {
+          l = (l - r) / l * alpha;
+          d.x -= x *= l;
+          d.y -= y *= l;
+          cluster.x += x;
+          cluster.y += y;
+        }
+      });
+  }
+
+  function collide(alpha) {
+    var quadtree = d3.quadtree()
+        .x((d) => d.x)
+        .y((d) => d.y)
+        .addAll(nodes);
+
+    nodes.forEach(function(d) {
+      var r = d.r + maxRadius + Math.max(padding, clusterPadding),
+          nx1 = d.x - r,
+          nx2 = d.x + r,
+          ny1 = d.y - r,
+          ny2 = d.y + r;
+      quadtree.visit(function(quad, x1, y1, x2, y2) {
+
+        if (quad.data && (quad.data !== d)) {
+          var x = d.x - quad.data.x,
+              y = d.y - quad.data.y,
+              l = Math.sqrt(x * x + y * y),
+              r = d.r + quad.data.r + (d.cluster === quad.data.cluster ? padding : clusterPadding);
+          if (l < r) {
+            l = (l - r) / l * alpha;
+            d.x -= x *= l;
+            d.y -= y *= l;
+            quad.data.x += x;
+            quad.data.y += y;
+          }
+        }
+        return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+      });
+    });
+  }
+
+
+});
