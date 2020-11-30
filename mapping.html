@@ -30,7 +30,10 @@
   <!-- J-Query assets -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 
-
+  <!-- fullscreen -->
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+    
   <style>
     #map {
       width: 900px;
@@ -72,6 +75,7 @@
     });
 
     var map = L.map( 'map', {
+       fullscreenControl: true,
        center: [10.0, 5.0],
        minZoom: 2,
        zoom: 2
