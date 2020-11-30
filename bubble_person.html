@@ -23,6 +23,36 @@
 
   }
 
+
+#right_float_middle {
+    margin-left: 50px;
+    margin-top: 30px;
+    overflow: hidden;
+    display: inline-flex;
+}
+
+#toolbar {
+  margin-left: 50px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+
+#charts_container {
+    position: relative;
+    left: -150px;
+    right: 0px;
+    top: -95px;
+    bottom: 0px;
+    width: 95%;
+    overflow: hidden;
+    /* display: contents; */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
   </style>
   <link rel="stylesheet" href="css/style.css"/>
 
@@ -44,25 +74,58 @@
     </div>
     </div>
   </section>
-    <section>
-      <div style="text-align:left;">
+  <section>
+    <div id="toolbar">
+        <text x="1" y="130" font-weight="bold"><h3>The bubble Chart</h3></text>
+        <text x="20" y="150">1. Each bubble represents the name of the artist whose works
+          were displayed in the exhibitions through the years 1960-1989.</text>
+        <text x="20" y="170">2. the Size of the Circle in the plot depends on occurrences in the data.</text>
+        <text x="20" y="190">3. the Colors and Clusters are assigned to the nationalities of the people.</text>
+    </div>
+  </section>
+        <section>
+          <div id="charts_container">
+            <script src='https://d3js.org/d3.v4.min.js'></script>
+            <script src="bubble.js"></script>
+          </section>
+          <section>
+        <div id= "right_float_middle">
+              <svg width="450" height="300">
+
+                  <circle cx="125" cy="180" r="80" stroke="black" stroke-width="4" fill="none" stroke-dasharray="5" />
+                  <!-- CyberVor 1.2 Billion Records -->
+                  <circle cx="125" cy="150" r="70" stroke="black" stroke-width="4" fill="none" stroke-dasharray="5" />
+                  <!-- AliExpress 500 Million Records -->
+                  <circle cx="125" cy="120" r="60" stroke="black" stroke-width="4" fill="none" stroke-dasharray="5" />
+                  <!-- AliExpress 100 Million Records -->
+                  <circle cx="125" cy="90" r="50" stroke="black" stroke-width="4" fill="none" stroke-dasharray="5" />
+                  <!-- 17 Media 50 Million Records -->
+                  <line x1="125" y1="140" x2="250" y2="140" style="stroke:rgb(72,61,139);stroke-width:2" />
+                  <line x1="125" y1="180" x2="250" y2="180" style="stroke:rgb(72,61,139);stroke-width:2" />
+                  <line x1="125" y1="220" x2="250" y2="220" style="stroke:rgb(72,61,139);stroke-width:2" />
+                  <line x1="125" y1="260" x2="250" y2="260" style="stroke:rgb(72,61,139);stroke-width:2" />
+                  <text x="255" y="265" font-weight="bold">More than 30 occurrences</text>
+                  <text x="255" y="225" font-weight="bold">More than 20 occurrences</text>
+                  <text x="255" y="185" font-weight="bold">More than 10 occurrences</text>
+                  <text x="255" y="145" font-weight="bold">More than 5 occurrences</text>
+              </svg>
           <svg width="800" height="60">
-       <text x="1" y="15" font-weight="bold">Country </text>
-       <circle cx="20" cy="40" r="15" stroke="black" stroke-width="2" fill='#ff9587' />
-       <text x="50" y="45" font-weight="bold">German</text>
-       <circle cx="140" cy="40" r="15" stroke="black" stroke-width="2" fill='#7FDBFF' />
-       <text x="170" y="45" font-weight="bold">French</text>
-       <circle cx="250" cy="40" r="15" stroke="black" stroke-width="2" fill='#39CCCC' />
-       <text x="280" y="45" font-weight="bold">Polish</text>
-       <circle cx="370" cy="40" r="15" stroke="black" stroke-width="2" fill='#bad63e' />
-       <text x="400" y="45" font-weight="bold">American</text>
-       <circle cx="500" cy="40" r="15" stroke="black" stroke-width="2" fill='#f2f070' />
-       <text x="525" y="45" font-weight="bold">Spanish</text>
-         </svg>
-     </div>
-   </section>
-   <section>
-     <script src='https://d3js.org/d3.v4.min.js'></script>
-     <script src="bubble.js"></script>    </section>
+           <text x="1" y="15" font-weight="bold">Country </text>
+           <circle cx="20" cy="40" r="15" stroke="black" stroke-width="2" fill='#ff9587' />
+           <text x="50" y="45" font-weight="bold">German</text>
+           <circle cx="140" cy="40" r="15" stroke="black" stroke-width="2" fill='#7FDBFF' />
+           <text x="170" y="45" font-weight="bold">French</text>
+           <circle cx="250" cy="40" r="15" stroke="black" stroke-width="2" fill='#39CCCC' />
+           <text x="280" y="45" font-weight="bold">Polish</text>
+           <circle cx="370" cy="40" r="15" stroke="black" stroke-width="2" fill='#bad63e' />
+           <text x="400" y="45" font-weight="bold">American</text>
+           <circle cx="500" cy="40" r="15" stroke="black" stroke-width="2" fill='#f2f070' />
+           <text x="525" y="45" font-weight="bold">Spanish</text>
+           <circle cx="630" cy="40" r="15" stroke="black" stroke-width="2" fill='#f1d9e7' />
+          <text x="655" y="45" font-weight="bold">Swiss</text>
+           </svg>
+       </div>
+     </section>
+   </div>
   </body>
 </html>
