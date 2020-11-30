@@ -99,7 +99,7 @@ console.log(radiusScale(300000));
           .attr("dy", ".3em")
           .style("text-anchor", "middle")
           .attr('color', 'black')
-          .attr('font-size', 12)
+          .attr('font-size', 11)
 
   // create the clustering/collision force simulation
   let simulation = d3.forceSimulation(nodes)
