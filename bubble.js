@@ -1,7 +1,7 @@
 let margin = {top: 100, right: 100, bottom: 100, left: 100};
 
-let width = 960,
-    height = 760,
+let width = 1000,
+    height = 850,
     padding = 1.5, // separation between same-color circles
     clusterPadding = 5, // separation between different-color circles
     maxRadius = height*0.1;
@@ -32,7 +32,7 @@ let div = d3.select("body").append("div")
 d3.csv("Count_Person.csv", function(d){
   let radiusScale = d3.scaleLinear()
     .domain(d3.extent(d, function(d) { return +d.Count;} ))
-    .range([30, 90]);
+    .range([47, 95]);
 
 console.log(radiusScale(300000));
 
