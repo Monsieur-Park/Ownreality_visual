@@ -62,26 +62,32 @@
     </div>
     </div>
   </section>
-  <section>
+   <section>
   <main>
   <h1>Cluster Mapping</h1>
 
   <div id="map"></div>
+  <info>
+    <h2>About this visualization</h2>
 
-  <script type='text/javascript'>
+  <p align="justify"> Marker Clustering is a method, that creates a cluster at a particular marker ("places") and add markers that are bound to the cluster.</p>
+  <p align="justify"> The number of a cluster indicates how many markers it contains. At first the clustering represents at first the spatial distribution of exhibition places in the period of cold war, but also biographical locations of exhibition participants. (Places of born, work and death)</p>
+
+  </info>
+
+  <script>
 
     var mapStyle = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    });
+    })
+//    latlng = L.latLng(15, 60);
 
-  var map = L.map( 'map', {
+    var map = L.map( 'map', {
       fullscreenControl: true,
        center: [50,10],
        zoom: 4,
-       minZoom: 2
+       minZoom: 3
      });
-
-    map.addLayer(mapStyle);
 
     map.addLayer(mapStyle);
 
@@ -97,10 +103,9 @@
     // Create marker layers
     for ( var i = 0; i < Event.length; ++i )
     {
-      var popup =  Event[i].title +
-                  '<br/><b>Title:</b>' + Event[i].title +
-                  '<br/><b>Start</b> ' + Event[i].start +
-                  '<br/><b>End:</b> ' + Event[i].end;
+      var popup = '<b>Title: </b>' + Event[i].title +
+                  '<br/><b>Start: </b> ' + Event[i].start +
+                  '<br/><b>End: </b> ' + Event[i].end;
                 //  '<br/><b>ExhibitionCount:</b> ' + City[i].ExhibitionCount;
                 //  '<br/><b>Timezone:</b> ' + markers[i].tz;
 
@@ -114,10 +119,10 @@
 
     for ( var i = 0; i < Born.length; ++i )
     {
-      var pop =  Born[i].Name +
-                  '<br/><b>Nationality</b> ' + Born[i].Nationality +
-                  '<br/><b>Bio:</b> ' + Born[i].Bio +
-                  '<br/><b>born_place:</b> ' + Born[i].born_place;
+      var pop =   '<b>Name: </b>' + Born[i].Name +
+                  '<br/><b>Nationality: </b> ' + Born[i].Nationality +
+                  '<br/><b>Bio: </b> ' + Born[i].Bio +
+                  '<br/><b>Place of Born: </b> ' + Born[i].born_place;
                 //  '<br/><b>Timezone:</b> ' + markers[i].tz;
 
       var m = L.marker([Born[i].lat, Born[i].lng], {
@@ -129,10 +134,10 @@
 
     for ( var i = 0; i < Work.length; ++i )
     {
-      var pop =  Work[i].Name +
-                  '<br/><b>Nationality</b> ' + Work[i].Nationality +
-                  '<br/><b>Bio:</b> ' + Work[i].Bio +
-                  '<br/><b>Work_place:</b> ' + Work[i].work_place;
+      var pop =   '<b>Name: </b>' + Work[i].Name +
+                  '<br/><b>Nationality: </b> ' + Work[i].Nationality +
+                  '<br/><b>Bio: </b> ' + Work[i].Bio +
+                  '<br/><b>Place of Work: </b> ' + Work[i].work_place;
 
       var m = L.marker([Work[i].lat, Work[i].lng], {
       })
@@ -143,10 +148,10 @@
 
     for ( var i = 0; i < Death.length; ++i )
     {
-      var pop =  Death[i].Name +
-                  '<br/><b>Nationality</b> ' + Death[i].Nationality +
-                  '<br/><b>Bio:</b> ' + Death[i].Bio +
-                  '<br/><b>Death_place:</b> ' + Death[i].Death_place;
+      var pop =   '<b>Name: </b>' + Death[i].Name +
+                  '<br/><b>Nationality: </b> ' + Death[i].Nationality +
+                  '<br/><b>Bio: </b> ' + Death[i].Bio +
+                  '<br/><b>Place of Death: </b> ' + Death[i].Death_place;
                 //  '<br/><b>Timezone:</b> ' + markers[i].tz;
 
       var m = L.marker([Death[i].lat, Death[i].lng], {
@@ -156,7 +161,28 @@
       deathCluster.addLayer(m);
     }
 
-    var country_boundary = new L.geoJson();
+    var country_boundary =  L.geoJson(null,{style: areaStyle});
+
+    function getAreaColor(feature){
+      console.log(feature)
+    	switch (feature.properties.NAME){
+      	case 'East Germany' : return 'pink' ;
+        case 'West Germany' : return 'yellow' ;
+        	break;
+      }
+    };
+
+    function areaStyle(feature){
+    	return {
+      	fillColor: getAreaColor(feature),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.3
+      }
+    };
+
     country_boundary.addTo(map);
 
        $.ajax({
@@ -179,7 +205,6 @@
     var options = {
       container_width: "300px",
       group_maxHeight: "80px",
-      //container_maxHeight : "350px",
       exclusive: false,
       collapsed: true,
       position: 'topright'
@@ -189,8 +214,6 @@
     // map.clearLayers();
 
     eventCluster.addTo(map);
-    //allStudents.addTo(mymap);
-
 
         </script>
       </main>
