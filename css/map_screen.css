@@ -1,7 +1,45 @@
 #map {
-	height: 700px;
-	border: 1px solid #ccc;
+				height: 700px;
+				border: 1px solid #ccc;
 }
+
+h1 {
+	position: absolute;
+	margin-top: 0;
+	top: 55px;
+	left: 9px;
+	font-size: 2em;
+	font-family: "Lora", serif;
+	letter-spacing: .04em;
+	padding: 10px 15px;
+	background: rgba(256, 256, 256, .4);
+	border: 1px solid grey;
+	border-radius: 3px;
+	z-index: 800;
+}
+
+h2 {
+	font-family: "Lora", serif;
+	letter-spacing: .04em;
+}
+
+p {
+		font-size: .9em;
+		line-height: 1.5em;
+	}
+
+info {
+		position: absolute;
+		bottom: 0;
+		left: 10px;
+		width: 280px;
+		margin: 20px auto;
+		padding: 0 15px;
+		background: rgba(256, 256, 256, .4);
+		border: 1px solid grey;
+		border-radius: 3px;
+		z-index: 800;
+	}
 
 #progress {
     display: none;
