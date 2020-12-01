@@ -74,12 +74,14 @@
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     });
 
-    var map = L.map( 'map', {
-       fullscreenControl: true,
-       center: [10.0, 5.0],
-       minZoom: 2,
-       zoom: 2
+  var map = L.map( 'map', {
+      fullscreenControl: true,
+       center: [50,10],
+       zoom: 4,
+       minZoom: 4
      });
+
+    map.addLayer(mapStyle);
 
     map.addLayer(mapStyle);
 
@@ -184,8 +186,10 @@
     };
 
     L.control.layers(baseMaps, null).addTo(map);
-//allStudents.addTo(mymap);
-     map.clearLayers();
+    // map.clearLayers();
+
+    eventCluster.addTo(map);
+    //allStudents.addTo(mymap);
 
 
         </script>
