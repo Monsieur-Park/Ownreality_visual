@@ -3,6 +3,12 @@
   <head>
     <title>OwnReality visualizations</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+    .svg--center{
+      text-align: center;
+      vertical-align: middle;
+    }
+    </style>
     <link rel="stylesheet" href="css/style.css"/>
   </head>
 <body>
@@ -15,7 +21,7 @@
   </button>
   <div class="dropdown-content" id="myDropdown">
     <a href="network.html">Graph database </a>
-    <a href="mapping.html">Mapping</a>
+    <a href="map_bsp.html">Mapping</a>
     <a href="bubble_person.html">BubbleChart</a>
   </div>
   </div>
@@ -24,13 +30,22 @@
 
 <section>
   <main>
-    <h1>OwnReality. To Each His Own Reality</h1>
+    <div id="toolbar">
+        <text x="1" y="130" font-weight="bold"><h1>OwnReality. To Each His Own Reality</h1></text>
+        <text x="20" y="150"> From 2010 to 2016, the project treats the notions of the real and reality in the discourse on art in France, the FRG, the GDR and Poland between 1960 and 1989.</text>
+        <text x="20" y="170"> The visualizations in this page were realized in the context of reusability and information retrieval of <a href="https://heidata.uni-heidelberg.de/dataset.xhtml?persistentId=doi:10.11588/data/ZMIHMY">the research data</a>, 
+        while it was focused on a dataset which <br> displays the chronology of exhibitions that were recorded during the period.</text>        
+        <text x="20" y="190"> The front image represents a visualized database schema from the graph database <a href="https://neo4j.com/">Neo4j</a>.</text>
+        <text x="20" y="210"> The colors of each nodes and edges identify the classification of the element and his relationship. </text>
 
-    <p>Here's a page for interactive visualizations.</br>
-    <object data="graph.svg" type="image/svg+xml"></object>
+    <div class="svg--center">
 
-    <p>The data comes from <a href="https://dfk-paris.org/" target="_blank">
+    <object data="graph_test.svg" type="image/svg+xml"></object>
+
+  </div>
+    <p>The data is provided by<a href="https://dfk-paris.org/de/ownreality" target="_blank">
         DFK Paris - Deutsches Forum für Kunstgeschichte Paris</a>.
+  </div>
   </main>
 </section>
 </body>
