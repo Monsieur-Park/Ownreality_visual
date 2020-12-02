@@ -38,6 +38,36 @@ font-family: inherit;
 margin: 0;
 }
 
+
+#toolbar {
+  margin-left: 50px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  font-weight: normal;
+}
+
+#charts_container {
+    position: relative;
+    left: -150px;
+    right: 0px;
+    top: -95px;
+    bottom: 0px;
+    width: 95%;
+    overflow: hidden;
+    /* display: contents; */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#right_float_middle {
+    margin-left: 5px;
+    margin-top: 10px;
+    overflow: hidden;
+    display: inline-flex;
+}
+
 .navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
 background-color: red;
 }
