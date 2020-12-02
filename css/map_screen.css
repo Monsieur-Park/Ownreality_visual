@@ -1,14 +1,13 @@
-
 #map {
-	height: 700px;
-	border: 1px solid #ccc;
+				height: 700px;
+				border: 1px solid #ccc;
 }
 
 h1 {
 	position: absolute;
 	margin-top: 0;
 	top: 55px;
-	left: 9px;
+	left: 39px;
 	font-size: 2em;
 	font-family: "Lora", serif;
 	letter-spacing: .04em;
