@@ -1,3 +1,4 @@
+
 var sliderControl = null;
 
 var map = L.map( 'map', {
@@ -48,6 +49,42 @@ $.getJSON("maps/Event.json", function(json) {
 	var Clusters = L.markerClusterGroup.layerSupport().addTo(map);
 	Clusters.checkIn(event);
 });
+
+
+var country_boundary =  L.geoJson(null,{style: areaStyle});
+
+function getAreaColor(feature){
+	console.log(feature)
+	switch (feature.properties.NAME){
+		case 'East Germany' : return 'pink' ;
+		case 'West Germany' : return 'yellow' ;
+			break;
+	}
+};
+
+function areaStyle(feature){
+	return {
+		fillColor: getAreaColor(feature),
+		weight: 2,
+		opacity: 1,
+		color: 'white',
+		dashArray: '3',
+		fillOpacity: 0.3
+	}
+};
+
+country_boundary.addTo(map);
+
+	 $.ajax({
+	 dataType: "json",
+	 url: "maps/Germany.geojson",
+	 success: function(data) {
+			 $(data.features).each(function(key, data) {
+					 country_boundary.addData(data);
+			 });
+	 }
+	 }).error(function() {});
+
 
 
 	//var Clusters = L.markerClusterGroup.layerSupport().addTo(map);
