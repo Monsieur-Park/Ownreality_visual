@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+  <!-- Leaflet assets -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
+
+  <!-- Leaflet.StyledLayerControl assets -->
+  <link rel="stylesheet" href="dist/styledLayerControl.css">
+  <script src="dist/styledLayerControl.js"></script>
+
+  <!-- Leaflet.markercluster assets -->
+  <link rel="stylesheet" href="dist/MarkerCluster.css">
+  <link rel="stylesheet" href="dist/MarkerCluster.Default.css">
+  <script src="dist/leaflet.markercluster-src.js"></script>
+
+  <!-- Leaflet.markercluster.layersupport assets -->
+  <script src="dist/leaflet.markercluster.layersupport-src.js"></script>
+  <script src="maps/Event_Register.js"></script>
+  <script src="maps/Born_Register.js"></script>
+  <script src="maps/Work_Register.js"></script>
+  <script src="maps/Death_Register.js"></script>
+
+  <!-- J-Query assets -->
+  <script type='text/javascript'src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js'></script>
+
+
+  <link rel="stylesheet" href="css/map_screen.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- fullscreen -->
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
+  <script src="https://unpkg.com/urijs@^1/src/URI.min.js"></script>
+  <script src="https://unpkg.com/load-js-css@0.0.2/index.js"></script>
+
+  <script src="https://unpkg.com/manage-libs-versions@0.2.1/manage-libs-versions.js"></script>
+  <!--script src="manage-libs-versions.js"></script-->
+
+  <script src="https://ghybs.github.io/Leaflet.FeatureGroup.SubGroup/leaflet-versions.js"></script>
+  <script src="https://ghybs.github.io/Leaflet.FeatureGroup.SubGroup/leaflet.markercluster-versions.js"></script>
+
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" type="text/css">
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>
+
+</head>
+<body>
+  <section id ="header">
+    <div class="navbar">
+      <a href="index.html">Home</a>
+    <div class="dropdown">
+    <button class="dropbtn" onclick="myFunction()">Menu
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-content" id="myDropdown">
+      <a href="network.html">Graph database </a>
+      <a href="map_bsp.html">Mapping</a>
+      <a href="bubble_person.html">BubbleChart</a>
+    </div>
+    </div>
+    </div>
+  </section>
+  <section>
+  <main>
+  <h1>Cluster Mapping</h1>
+
+  <div id="map"></div>
+
+
+  <info>
+    <h2>About this visualization</h2>
+
+  <p align="justify"> Marker Clustering is a method, that creates a cluster at a particular marker ("places") and add markers that are bound to the cluster.</p>
+  <p align="justify"> The number of a cluster indicates how many markers it contains. At first the clustering represents the spatial distribution of exhibition places in the period of Cold war, but also biographical locations of exhibition participants (Places of born, work and death).</p>
+
+  </info>
+
+  <script>
+  // Asset(s) for the current demo / debug page.
+  var pageAssets = {
+    type: 'script',
+    path: './map_timeline.js'
+  };
+
+  // Specify the available compatible versions of LeafletSlider plugin.
+  var libLeafletSlider = {
+    name: 'leafletslider',
+      mandatory: true,
+      versions: [
+        _makeLibVersionAssets({
+              name: '1.0.5',
+              defaultVersion: true, // Make sure only the most recent version is flagged as default.
+              sriSrcJs: 'sha384-5IfBsOgnREnsHq5tPQFNx2xK/EIJ9e4Ltz079lGfMytGCSrRRxH2JfhZJNUEdRIP'
+          }),
+        _makeLibVersionAssets({
+          name: '1.0.4',
+          sriSrcJs: 'sha384-VnCIJnN9xhnZ+iMePKwqc9zUpvDDX5wGLjRqHXuvhgMxIMGo1sCg2ehhxKxGs1lg'
+        })
+      ]
+  };
+  var extraLibs = extraLibs || [];
+
+  extraLibs.push(libLeafletSlider);
+
+
+  function _makeLibVersionAssets(options) {
+    var versionName = options.name;
+
+    return {
+      name: versionName,
+      defaultVersion: options.defaultVersion,
+      disabled: options.disabled,
+      assets: [
+        manageLibsVersions.makeScript('https://cdn.jsdelivr.net/gh/dwilhelm89/LeafletSlider@{{VERSION}}/SliderControl.js', versionName, options.sriSrcJs)
+      ]
+    };
+  }
+
+        </script>
+        <script src="dist/libs-setup.js"></script>
+        <script src="dist/demo-setup.js"></script>
+      </main>
+    </section>
+  </body>
+</html>
