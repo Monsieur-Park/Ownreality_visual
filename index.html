@@ -1,57 +1,80 @@
-<meta charset="utf-8">
-<style>
-
-body {
-  text-align: center;
-  font-family: arial;
-}
-
-.links line {
-  stroke: #999;
-  stroke-opacity: 0.6;
-}
-
-.nodes circle {
-  stroke: #fff;
-  stroke-width: 1.5px;
-}
-
-#tools div {
-	float: right;
-	display: inline;
-}
-
-form { display: inline; }
-
-
-div.tooltip {
-    position: absolute;
-    text-align: center;
-    width: 80px;
-    line-height: 40px;
-    padding: 2px;
-    font: 12px sans-serif;
-    background: gold;
-    border: 0px;
-    border-radius: 8px;
-    pointer-events: none;
-}
-
-.label {
-  font-family: "Roboto", Roboto, sans-serif;
-  font: "Roboto", sans-serif;
-  pointer-events: none;
-}
-
-</style>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OwnReality visualizations</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+    .svg--center{
+      text-align: center;
+      vertical-align: middle;
+    }
+    .description {
+  text-align: justify;
+      }
+      body {
+        font-size: calc(0.8em + 1vmin);
+      }
+    </style>
+    <link rel="stylesheet" href="css/style.css"/>
+  </head>
 <body>
-  <h1>Tweets Blacklives Matter</h1>
-  <p id='word'>Words: ... </p>
-  <p id='connection'>Connections: ... </p>
-  <div id='tools'></div>
-  <svg width=1040 height=940></svg>
-  <p></p>
-  <script src="https://d3js.org/d3.v4.min.js"></script>
-  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-  <script src="index.js"></script>
+<section id ="header">
+  <div class="navbar">
+    <a href="index.html">Home</a>
+  <div class="dropdown">
+  <button class="dropbtn" onclick="myFunction()">Menu
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-content" id="myDropdown">
+    <a href="network.html">Graph database </a>
+    <a href="mapping.html">Mapping</a>
+    <a href="map_timeline.html">Timeline</a>
+    <a href="bubble_person.html">BubbleChart</a>
+  </div>
+  </div>
+  </div>
+</section>
+
+<section>
+  <main>
+    <div id="toolbar">
+        <text x="1" y="130" font-weight="bold"><h1>Data Visualizations for the art history project “OwnReality. To Each His Own Reality”</h1></text>
+        <p class="description">
+          From 2010 to 2016, the research project <a href="https://dfk-paris.org/en/ownreality">"OwnReality. To Each His Own Reality"</a> studied the notion of the “real” in the arts in France, the FRG, the GDR and Poland between 1960 and 1989.<br>
+          The visualizations in this page were realized in 2020, in the context of a students project in the field of Digital Humanities, aiming at applying reusability and information retrieval of research data. 
+          <br>
+          We focused on a dataset of the “OwnReality”-project which contains data of exhibitions that took place during the investigated period.
+          <br>
+          <br>
+          Those data were originally compiled as a JSON-file (chronology.json, see <a href="https://heidata.uni-heidelberg.de/dataverse/ownreality">https://heidata.uni-heidelberg.de/dataverse/ownreality</a>)
+          for being presented by the research tool of the project <br> <a href="https://dfk-paris.org/en/page/ownrealitydatabase-and-research-tool-1353.html">https://dfk-paris.org/en/page/ownrealitydatabase-and-research-tool-1353.html</a>).
+          <br>
+          The front image here represents a visualized database schema generated from the graph database <a href="https://neo4j.com/">Neo4j</a> purpose-built to leverage not only data but also data relationships.<br>
+          The colors of the nodes and edges identify the classification of each element and its relationships.
+          <br>
+          <br>
+          For the application of visualization, a random sample of 4427 datasets were enriched with controlled vocabularies – people’s names through the Getty Union List of Artists Names (<a href="https://www.getty.edu/research/tools/vocabularies/ulan/">ULAN</a>); countries and cities through the Getty Thesaurus of Geographic Names (<a href="https://www.getty.edu/research/tools/vocabularies/tgn/">TGN</a>) – by using Openrefine.
+          <br>This was carried out in a cooperation with Mariafrancesca Denora (DFK Paris). This set of sample data has the only purpose to enable the students project.
+          <br>It is not a sufficient derivate for further research and does not represent the results of the project “OwnReality”.
+        </p>
+</section>
+<section
+    <div class="svg--center">
+
+    <object data="Diagramm.svg" type="image/svg+xml"></object>
+
+  </div>
+</section>
+  <footer>
+
+    <p>The data is provided by<a href="https://dfk-paris.org/de/ownreality" target="_blank">
+        DFK Paris - Deutsches Forum für Kunstgeschichte Paris</a>.
+
+    </p>
+  <footer>
+
+
+  </main>
 </body>
+
+</html>
